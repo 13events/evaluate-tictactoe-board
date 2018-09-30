@@ -7,14 +7,29 @@
 
 Board::Board()
 {
+
+	player = 'x';
+	opponent = 'o';
+
 	//fill in the board with 1-9
-	int number = 1;
+	int number = 49;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			board[i][j] = number;
 			number++;
 		}
 	}
+
+	print();
+
+	/*markSpace(0, 0, true);
+	std::cout << "Modified board: \n";
+	print();
+	std::cout << "BoardState: \n";
+	print();*/
+
+	
+
 }
 
 void Board::print()
@@ -25,6 +40,13 @@ void Board::print()
 		}
 		std::cout << "\n";
 	}
+
+}
+
+void Board::markSpace(int row, int col, char symbol)
+{
+	board[row][col] = symbol;
+	
 }
 
 /// <summary>	Gets the board. </summary>
@@ -33,48 +55,9 @@ void Board::print()
 ///
 /// <returns>	Null if it fails, else the array representing the board. </returns>
 
-char * Board::getBoard()
+std::array<std::array<char,3>, 3> Board::getBoard()
 {
-	return *this->board;
+	return this->board;
+
 }
 
-int Board::evaluate(char b[3][3])
-{
-	//check rows for 'x' or 'o' victory
-	for (int row = 0; row < 3; row++) {
-		if (b[row][0] == b[row][1] && b[row][1] == b[row][2]) {
-			if (b[row][0] == 'x')
-				return +10;
-			if (b[row][0] == 'o')
-				return -10;
-		}
-	}
-
-	//check columns for 'x' or 'o' victory
-	for (int col = 0; col < 3; col++) {
-		if (b[0][col] == b[1][col] && b[1][col] == b[2][col]) {
-			if (b[0][col] == 'x')
-				return +10;
-			if (b[0][col] == 'o')
-				return -10;
-		}
-	}
-
-	//check diagonals for 'x' or 'o' victory
-	if (b[0][0] == b[1][1] && b[1][1] == b[2][2]) {
-		if (b[0][0] == 'x')
-			return +10;
-		if (b[0][0] == 'o')
-			return -10;
-	}
-
-	if (b[0][2] == b[1][1] && b[1][1] == b[2][0]) {
-		if (b[0][2] == 'x')
-			return +10;
-		if (b[0][2] == 'o')
-			return -10;
-	}
-	
-	//else return 0 if tie.
-	return 0;
-}
