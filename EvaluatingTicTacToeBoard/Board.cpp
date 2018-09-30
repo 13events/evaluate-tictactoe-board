@@ -11,16 +11,16 @@ Board::Board()
 	player = 'x';
 	opponent = 'o';
 
-	//fill in the board with 1-9
-	int number = 49;
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			board[i][j] = number;
-			number++;
-		}
-	}
+	////fill in the board with 1-9
+	//int number = 49;
+	//for (int i = 0; i < 3; i++) {
+	//	for (int j = 0; j < 3; j++) {
+	//		board[i][j] = number;
+	//		number++;
+	//	}
+	//}
 
-	print();
+	//print();
 
 	/*markSpace(0, 0, true);
 	std::cout << "Modified board: \n";
@@ -36,7 +36,7 @@ void Board::print()
 {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			std::cout << board[i][j] << "|";
+			std::cout << board[i][j]  << "|";
 		}
 		std::cout << "\n";
 	}
