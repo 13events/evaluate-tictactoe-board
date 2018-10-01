@@ -25,12 +25,21 @@ Game::Game(bool prebuiltBoard)
 	this->player = 'x';
 	this->opponent = 'o';
 
+	//set board to inital state of
+	/* 
+	X | O | O 
+	-----------
+	O | X | X
+	-----------
+	_ | _ | _
+	*/
+
 	board.markSpace(0, 0, player);
 	board.markSpace(0, 1, opponent);
-	board.markSpace(0, 2, player);
+	board.markSpace(0, 2, opponent);
 	
 	board.markSpace(1, 0, opponent);
-	board.markSpace(1, 1, opponent);
+	board.markSpace(1, 1, player);
 	board.markSpace(1, 2, player);
 
 	board.markSpace(2, 0, '_');
