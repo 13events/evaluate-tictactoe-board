@@ -8,6 +8,16 @@ Game::Game()
 	
 	this->player = 'x';
 	this->opponent = 'o';
+
+	//set blank board state
+	
+	for (int i = 0; i < board.board.size(); i++) {
+		for (int j = 0; j < board.board.size(); j++) {
+			board.markSpace(i, j, '_');
+		}
+	}
+	//print initial state
+	board.print();
 }
 
 Game::Game(bool prebuiltBoard)
@@ -15,22 +25,34 @@ Game::Game(bool prebuiltBoard)
 	this->player = 'x';
 	this->opponent = 'o';
 
+	//set board to inital state of
+	/* 
+	X | O | O 
+	-----------
+	O | X | X
+	-----------
+	_ | _ | _
+	*/
+
 	board.markSpace(0, 0, player);
 	board.markSpace(0, 1, opponent);
-	board.markSpace(0, 2, player);
+	board.markSpace(0, 2, opponent);
 	
 	board.markSpace(1, 0, opponent);
-	board.markSpace(1, 0, opponent);
-	board.markSpace(1, 0, player);
+	board.markSpace(1, 1, player);
+	board.markSpace(1, 2, player);
 
 	board.markSpace(2, 0, '_');
 	board.markSpace(2, 1, '_');
 	board.markSpace(2, 2, '_');
+
+	//display initial state
+	board.print();
 }
 
 bool Game::isMovesLeft()
 {
-	std::array<std::array<char,3>,3> boardState = board.getBoard();
+	//std::array<std::array<char,3>,3> boardState = board.getBoard();
 
 	//Debug code
 	/*std::cout << "The board state in 'isMovesLeft': \n";
@@ -43,7 +65,7 @@ bool Game::isMovesLeft()
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (boardState[i][j] != 'x' || boardState[i][j] != 'o')
+			if (board.board[i][j] != 'x' && board.board[i][j] != 'o')
 				//Debug
 				//std::cout << "Moves Left: True";
 				return true;
@@ -57,43 +79,43 @@ bool Game::isMovesLeft()
 int Game::evaluate()
 {
 	//get board state
-	std::array<std::array<char, 3>, 3> boardState = board.getBoard();
+	//std::array<std::array<char, 3>, 3> boardState = board.getBoard();
 
-	boardState[0][0];
+	//boardState[0][0];
 	//check for row 'x' or 'o' victory
-	for (auto row = 0; row < boardState.size(); row++) {
-		if (boardState[row][0] == boardState[row][1] && boardState[row][1] == boardState[row][2]) {
-			if (boardState[row][0] == 'x') {
+	for (auto row = 0; row < board.board.size(); row++) {
+		if (board.board[row][0] == board.board[row][1] && board.board[row][1] == board.board[row][2]) {
+			if (board.board[row][0] == 'x') {
 				return +10;
 			}
-			else if (boardState[row][0] == 'o')
+			else if (board.board[row][0] == 'o')
 				return -10;
 		}
 	}
 
 	//check columns for 'x' or 'o' victory
-	for (int column = 0; column < boardState.size(); column++) {
-		if (boardState[0][column] == boardState[1][column] && boardState[1][column] == boardState[2][column]) {
-			if (boardState[0][column] == 'x')
+	for (int column = 0; column < board.board.size(); column++) {
+		if (board.board[0][column] == board.board[1][column] && board.board[1][column] == board.board[2][column]) {
+			if (board.board[0][column] == 'x')
 				return +10;
-			else if (boardState[0][column] == 'o')
+			else if (board.board[0][column] == 'o')
 				return -10;
 		}
 	}
 
 	//check diagonals
-	if (boardState[0][0] == boardState[1][1] && boardState[1][1] == boardState[2][2]) {
-		if (boardState[0][0] == 'x')
+	if (board.board[0][0] == board.board[1][1] && board.board[1][1] == board.board[2][2]) {
+		if (board.board[0][0] == 'x')
 			return +10;
-		else if (boardState[0][0] == '0')
+		else if (board.board[0][0] == '0')
 			return -10;
 
 	}
 
-	if (boardState[0][2] == boardState[1][1] && boardState[1][1] == boardState[2][0])
-		if (boardState[0][2] == 'x')
+	if (board.board[0][2] == board.board[1][1] && board.board[1][1] == board.board[2][0])
+		if (board.board[0][2] == 'x')
 			return +10;
-		else if (boardState[0][2] == 'o')
+		else if (board.board[0][2] == 'o')
 			return -10;
 
 	//return nothing if none have won
@@ -103,7 +125,7 @@ int Game::evaluate()
 int Game::minimax(int depth, bool isMax)
 {
 	//get board state
-	std::array<std::array<char, 3>, 3> boardState = board.getBoard();
+	//std::array<std::array<char, 3>, 3> boardState = board.getBoard();
 	int score = evaluate();
 	
 
@@ -127,12 +149,12 @@ int Game::minimax(int depth, bool isMax)
 		int best = -1000;
 		
 		//traverse all cells
-		for (int i = 0; i < boardState.size(); i++) {
-			for (int j = 0; j < boardState.size(); j++) {
+		for (int i = 0; i < board.board.size(); i++) {
+			for (int j = 0; j < board.board.size(); j++) {
 				//check if cell is empty
-				if (boardState[i][j] != 'x' || boardState[i][j] != 'o') {
+				if (board.board[i][j] != 'x' && board.board[i][j] != 'o') {
 					
-					char previousMove = boardState[i][j];
+					char previousMove = board.board[i][j];
 					//make player move
 					board.markSpace(i, j, player);
 
@@ -153,10 +175,10 @@ int Game::minimax(int depth, bool isMax)
 		int best = 1000;
 
 		//go through all cells
-		for (int i = 0; i < boardState.size(); i++) {
-			for (int j = 0; j < boardState.size(); j++) {
+		for (int i = 0; i < board.board.size(); i++) {
+			for (int j = 0; j < board.board.size(); j++) {
 				//check if cell is empty.
-				if (boardState[i][j] != 'x' || boardState[i][j] != 'o') {
+				if (board.board[i][j] != 'x' && board.board[i][j] != 'o') {
 					//make move as opponent
 					board.markSpace(i, j, opponent);
 
@@ -178,14 +200,14 @@ Move Game::findBestMove()
 	Move bestMove;
 	bestMove.row = -1;
 	bestMove.col = -1;
-	std::array<std::array<char, 3>, 3> boardState = board.getBoard();
+	//std::array<std::array<char, 3>, 3> boardState = board.getBoard();
 
 	//traverse throgu cells, evaluate minimax function for all
 	// empty cells and return the cell with the best(optimal) value.
-	for (int i = 0; i < boardState.size(); i++) {
-		for (int j = 0; j < boardState.size(); j++) {
+	for (int i = 0; i < board.board.size(); i++) {
+		for (int j = 0; j < board.board.size(); j++) {
 			//check if cell is empty
-			if (boardState[i][j] != 'x' || boardState[i][j] != 'o') {
+			if (board.board[i][j] != player && board.board[i][j] != opponent) {
 
 				//make player move
 				board.markSpace(i, j, player);
