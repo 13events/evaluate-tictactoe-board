@@ -229,6 +229,6 @@ Move Game::findBestMove()
 		}
 	}
 
-	std::cout << "Best move value is : " << bestValue;
+	
 	return bestMove;
 }
